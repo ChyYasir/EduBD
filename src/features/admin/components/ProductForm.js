@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearSelectedProduct,
   createProductAsync,
+  fetchBrandsAsync,
+  fetchCategoriesAsync,
   fetchProductByIDAsync,
   selectBrands,
   selectCategories,
@@ -25,6 +27,11 @@ function ProductForm() {
   const dispatch = useDispatch();
   const params = useParams();
   const selectedProduct = useSelector(selectProductByID);
+
+  useEffect(() => {
+    dispatch(fetchBrandsAsync());
+    dispatch(fetchCategoriesAsync());
+  }, []);
 
   useEffect(() => {
     if (params.id) {

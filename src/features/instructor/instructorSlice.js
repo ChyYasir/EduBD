@@ -20,12 +20,18 @@ export const createInstructorAsync = createAsyncThunk(
     return response.data;
   }
 );
+
 export const checkInstructorAsync = createAsyncThunk(
   "instructor/checkInstructor",
-  async (loginInfo) => {
-    const response = await checkInstructor(loginInfo);
-    // The value we return becomes the `fulfilled` action payload
-    return response.data;
+  async (loginInfo, { rejectWithValue }) => {
+    try {
+      const response = await checkInstructor(loginInfo);
+      // The value we return becomes the `fulfilled` action payload
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
   }
 );
 
@@ -62,6 +68,10 @@ export const instructorSlice = createSlice({
       .addCase(checkInstructorAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.loggedInInstructor = action.payload;
+      })
+      .addCase(checkInstructorAsync.rejected, (state, action) => {
+        state.status = "idle";
+        state.error = action.payload;
       })
       .addCase(signOutInstructorAsync.pending, (state) => {
         state.status = "loading";
