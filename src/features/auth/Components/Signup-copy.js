@@ -39,11 +39,9 @@ export default function Signup2() {
       <div className="h-screen md:flex">
         <div className="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden">
           <div>
-            <h1 className="text-white font-bold text-4xl font-sans">
-              GoFinance
-            </h1>
+            <h1 className="text-white font-bold text-4xl font-sans">EduBD</h1>
             <p className="text-white mt-1">
-              The most popular peer to peer lending at SEA
+              The most popular blended learning platform
             </p>
             <button
               type="submit"
@@ -121,7 +119,6 @@ export default function Signup2() {
                       name: data.name,
                       email: data.email,
                       password: data.password,
-                      addresses: [],
                     })
                   );
                 } else {

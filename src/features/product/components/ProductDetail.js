@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
+import { StarIcon, ArrowDownIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -122,11 +122,10 @@ export default function ProductDetail() {
               </div>
             </div>
             <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-              <img
-                src={product.images[3]}
-                alt={product.title}
-                className="h-full w-full object-cover object-center"
-              />
+              <div class="accordion-header cursor-pointer transition flex space-x-5 px-5 items-center h-16">
+                <h3>Chapter 1</h3>
+                <ArrowDownIcon className="h-6 w-6"></ArrowDownIcon>
+              </div>
             </div>
           </div>
 

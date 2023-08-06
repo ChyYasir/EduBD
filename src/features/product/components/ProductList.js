@@ -34,63 +34,6 @@ const sortOptions = [
   { name: "Price: High to Low", sort: "price", order: "desc", current: false },
 ];
 
-const old_products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    thumbnail:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    title: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 2,
-    name: "Basic Tee",
-    href: "#",
-    thumbnail:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    title: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 3,
-    name: "Basic Tee",
-    href: "#",
-    thumbnail:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    title: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  // More products...
-];
-
-const items = [
-  {
-    id: 1,
-    title: "Back End Developer",
-    department: "Engineering",
-    type: "Full-time",
-    location: "Remote",
-  },
-  {
-    id: 2,
-    title: "Front End Developer",
-    department: "Engineering",
-    type: "Full-time",
-    location: "Remote",
-  },
-  {
-    id: 3,
-    title: "User Interface Designer",
-    department: "Design",
-    type: "Full-time",
-    location: "Remote",
-  },
-];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -110,8 +53,8 @@ export default function ProductList() {
       options: categories,
     },
     {
-      id: "brand",
-      name: "Brand",
+      id: "topic",
+      name: "Topic",
       options: brands,
     },
   ];

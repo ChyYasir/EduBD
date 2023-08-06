@@ -9,51 +9,13 @@ const Footer = () => {
           <div className="p-5 w-1/2 sm:w-4/12 md:w-3/12">
             {/* Col Title */}
             <div className="text-xs uppercase text-gray-400 font-medium mb-6">
-              Getting Started
+              EduBD
             </div>
-            {/* Links */}
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Installation
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Release Notes
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Upgrade Guide
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Using with Preprocessors
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Optimizing for Production
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              Browser Support
-            </a>
-            <a
-              href="#"
-              className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-            >
-              IntelliSense
-            </a>
+            <div>
+              <p className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
+                Top Learning Experiences that create more talent in the world
+              </p>
+            </div>
           </div>
           {/* Col-2 */}
           <div className="p-5 w-1/2 sm:w-4/12 md:w-3/12">

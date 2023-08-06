@@ -32,24 +32,20 @@ export default function Login() {
       <div className="relative min-h-screen flex ">
         <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 bg-white">
           <div
-            className="sm:w-1/2 xl:w-3/5 h-full hidden md:flex flex-auto items-center justify-center p-10 overflow-hidden bg-purple-900 text-white bg-no-repeat bg-cover relative"
-            style={{
-              backgroundImage:
-                "url(https://images.unsplash.com/photo-1579451861283-a2239070aaa9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)",
-            }}
+            className="sm:w-1/2 xl:w-3/5 h-full hidden md:flex flex-auto items-center justify-center p-10 overflow-hidden bg-no-repeat bg-cover relative"
+            // style={{
+            //   backgroundImage:
+            //     "url(https://images.unsplash.com/photo-1579451861283-a2239070aaa9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)",
+            // }}
           >
-            <div className="absolute bg-gradient-to-b dummy opacity-75 inset-0 z-0" />
-            <div className="w-full  max-w-2xl z-10">
-              <div className="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6">
+            {/* <div className="absolute bg-gradient-to-b dummy opacity-75 inset-0 z-0" /> */}
+            <div className="w-full  max-w-2xl ">
+              <div className="sm:text-4xl xl:text-6xl text-primary  text-center font-bold leading-tight mb-6">
                 EduBD
               </div>
-              <div className="sm:text-xl xl:text-md text-gray-200 font-normal">
-                EduBd is a transformative blended learning platform that
-                seamlessly combines the best of online and traditional
-                education, empowering students with personalized learning
-                experiences, interactive content, and expert guidance. Unlock
-                your full potential with EduBd and embark on a journey of
-                knowledge and growth.
+              <div className="sm:text-xl xl:text-2xl text-black text-center font-normal">
+                The Platform that provides top Learning Experiences that create
+                more talent in the world
               </div>
             </div>
           </div>
