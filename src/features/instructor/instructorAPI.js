@@ -38,9 +38,30 @@ export function checkInstructor(loginInfo) {
     // TODO: on server it will only return some info of user (not password)
   });
 }
+
+export function fetchLoggedInInstructor(instructorId) {
+  return new Promise(async (resolve) => {
+    const response = await fetch(
+      "http://localhost:8080/instructors/" + instructorId
+    );
+    const data = await response.json();
+    resolve({ data });
+  });
+}
 export function signOutInstructor(instructorId) {
   return new Promise(async (resolve) => {
     // TODO: on server we will remove user session info
     resolve({ data: "success" });
+  });
+}
+
+export function fetchLoggedInInstructorOrders(instructorId) {
+  return new Promise(async (resolve) => {
+    //todo:  We will not hard-code server URL here
+    const response = await fetch(
+      "http://localhost:8080/products?instructor=" + instructorId
+    );
+    const data = await response.json();
+    resolve({ data });
   });
 }

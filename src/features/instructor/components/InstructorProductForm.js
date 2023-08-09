@@ -99,11 +99,7 @@ function InstructorProductForm() {
       setValue("price", selectedProduct.price);
       setValue("discountPercentage", selectedProduct.discountPercentage);
       setValue("thumbnail", selectedProduct.thumbnail);
-      setValue("stock", selectedProduct.stock);
-      setValue("image1", selectedProduct.images[0]);
-      setValue("image2", selectedProduct.images[1]);
-      setValue("image3", selectedProduct.images[2]);
-      setValue("topic", selectedProduct.topic);
+      setValue("brand", selectedProduct.brand);
       setValue("category", selectedProduct.category);
     }
   }, [selectedProduct, params.id, setValue]);
@@ -122,18 +118,9 @@ function InstructorProductForm() {
           const formData = new FormData();
           console.log(data);
           console.log(structure);
-
           const product = { ...data, instructor: instructor.id };
-          product.images = [
-            product.image1,
-            product.image2,
-            product.image3,
-            product.thumbnail,
-          ];
+
           product.rating = 0;
-          delete product["image1"];
-          delete product["image2"];
-          delete product["image3"];
           product.price = +product.price;
           product.stock = +product.stock;
           product.discountPercentage = +product.discountPercentage;
@@ -149,6 +136,7 @@ function InstructorProductForm() {
           formData.append("instructor", product.instructor);
           formData.append("thumbnail", selectedImage);
           formData.append("structure", JSON.stringify(structure));
+
           if (params.id) {
             product.id = params.id;
             product.rating = selectedProduct.rating || 0;

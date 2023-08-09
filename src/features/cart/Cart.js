@@ -18,14 +18,10 @@ export default function Cart() {
   const items = useSelector(selectItems);
 
   const totalAmount = items.reduce(
-    (amount, item) => item.price * item.quantity + amount,
+    (amount, item) => item.product.price + amount,
     0
   );
-  const totalItems = items.reduce((total, item) => item.quantity + total, 0);
-
-  const handleQuantity = (e, item) => {
-    dispatch(updateCartAsync({ ...item, quantity: +e.target.value }));
-  };
+  const totalItems = items.reduce((total, item) => 1 + total, 0);
 
   const handleRemove = (e, Id) => {
     dispatch(deleteItemFromCartAsync(Id));
@@ -49,8 +45,8 @@ export default function Cart() {
                   <li key={item.id} className="flex py-6">
                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                       <img
-                        src={item.thumbnail}
-                        alt={item.title}
+                        src={`http://localhost:8080/${item.product.thumbnail}`}
+                        alt={item.product.title}
                         className="h-full w-full object-cover object-center"
                       />
                     </div>
@@ -59,13 +55,10 @@ export default function Cart() {
                       <div>
                         <div className="flex justify-between text-base font-medium text-gray-900">
                           <h3>
-                            <a href={item.href}>{item.title}</a>
+                            <a href={item.href}>{item.product.title}</a>
                           </h3>
-                          <p className="ml-4">{item.price}</p>
+                          <p className="ml-4">{item.product.price}</p>
                         </div>
-                        <p className="mt-1 text-sm text-gray-500">
-                          {item.color}
-                        </p>
                       </div>
                       <div className="flex flex-1 items-end justify-between text-sm">
                         <div className="flex ">
@@ -93,34 +86,34 @@ export default function Cart() {
               <p>${totalAmount}</p>
             </div>
             <div className="flex justify-between text-base my-2 font-medium text-gray-900">
-              <p>Total Items in Cart</p>
-              <p>{totalItems} items</p>
+              <p>Total Courses in Cart</p>
+              <p>{totalItems} courses</p>
             </div>
             <p className="mt-0.5 text-sm text-gray-500">
-              Shipping and taxes calculated at checkout.
+              Taxes are calculated at checkout.
             </p>
-            <div className="mt-6">
+            <div
+              div
+              className="mt-6 flex flex-col justify-center text-center text-sm text-gray-500"
+            >
               <Link
                 to={"/checkout"}
-                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                className=" flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
               >
                 Checkout
               </Link>
-            </div>
-            <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-              <p>
-                or
-                <Link to="/courses">
-                  <button
-                    type="button"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                    onClick={() => setOpen(false)}
-                  >
-                    Continue Shopping
-                    <span aria-hidden="true"> &rarr;</span>
-                  </button>
-                </Link>
-              </p>
+
+              <p>or</p>
+              <Link to="/courses">
+                <button
+                  type="button"
+                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  onClick={() => setOpen(false)}
+                >
+                  Continue Purchasing
+                  <span aria-hidden="true"> &rarr;</span>
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -39,9 +39,14 @@ import HomePage from "./pages/HomePage";
 import Signup2 from "./features/auth/Components/Signup-copy";
 import InstructorHomePage from "./pages/InstructorHomePage";
 import ProtectedInstructor from "./features/auth/Components/ProtectedInstructor";
-import { selectLoggedInInstructor } from "./features/instructor/instructorSlice";
+import {
+  fetchLoggedInInstructorAsync,
+  selectLoggedInInstructor,
+} from "./features/instructor/instructorSlice";
 import InstructorProductFormPage from "./pages/InstructorProductFormPage";
 import ContactUsPage from "./pages/ContactUsPage";
+import InstructorOrders from "./features/instructor/components/InstructorOrders";
+import VideoDetailPage from "./pages/VideoDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +94,14 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/instructor/product-form/edit/:id",
+    element: (
+      <ProtectedInstructor>
+        <InstructorProductFormPage></InstructorProductFormPage>
+      </ProtectedInstructor>
+    ),
+  },
+  {
     path: "/admin/product-form/edit/:id",
     element: (
       <ProtectedAdmin>
@@ -122,12 +135,20 @@ const router = createBrowserRouter([
     element: <ProductDetailPage></ProductDetailPage>,
   },
   {
+    path: "/product-detail/:id/video/:videoId",
+    element: <VideoDetailPage></VideoDetailPage>,
+  },
+  {
     path: "/order-success/:id",
     element: <OrderSuccessPage />,
   },
   {
     path: "/order",
     element: <UserOrdersPage></UserOrdersPage>,
+  },
+  {
+    path: "/instructor/order",
+    element: <InstructorOrders></InstructorOrders>,
   },
   {
     path: "/profile",
@@ -149,7 +170,7 @@ const router = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
-  console.log(user);
+  // console.log(user);
   const instructor = useSelector(selectLoggedInInstructor);
   useEffect(() => {
     if (user) {
@@ -158,6 +179,12 @@ function App() {
       dispatch(clearError());
     }
   }, [dispatch, user]);
+
+  useEffect(() => {
+    if (instructor) {
+      dispatch(fetchLoggedInInstructorAsync(instructor.id));
+    }
+  });
   return (
     <div className="App">
       <RouterProvider router={router} />

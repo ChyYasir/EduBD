@@ -11,19 +11,18 @@ import {
   updateCartAsync,
 } from "../features/cart/cartSlice";
 import { useForm } from "react-hook-form";
-import {
-  selectLoggedInUser,
-  updateUserAsync,
-} from "../features/auth/authSlice";
+import { selectLoggedInUser } from "../features/auth/authSlice";
 import { createOrder } from "../features/order/orderAPI";
 import {
   createOrderAsync,
   selectCurrentOrder,
 } from "../features/order/orderSlice";
+import { updateUserAsync } from "../features/user/userSlice";
 
 const Checkout = () => {
   const items = useSelector(selectItems);
   const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -43,16 +42,11 @@ const Checkout = () => {
     0
   );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
-  const handleQuantity = (e, item) => {
-    dispatch(updateCartAsync({ ...item, quantity: +e.target.value }));
-  };
 
   const handleRemove = (e, id) => {
     dispatch(deleteItemFromCartAsync(id));
   };
-  const handleAddress = (e) => {
-    setSelectedAddress(user.addresses[e.target.value]);
-  };
+
   const handlePayment = (e) => {
     console.log(e.target.value);
     setPaymentMethod(e.target.value);
@@ -64,10 +58,18 @@ const Checkout = () => {
         items,
         totalAmount,
         totalItems,
-        user,
+        user: user.id,
         paymentMethod,
       })
     );
+
+    const newUser = { ...user };
+    newUser.products = newUser.products || [];
+    for (let i = 0; i < items.length; i++) {
+      console.log(items[i].product.id);
+      newUser.products.push(items[i].product.id);
+    }
+    dispatch(updateUserAsync(newUser));
   };
   const [open, setOpen] = useState(true);
   return (

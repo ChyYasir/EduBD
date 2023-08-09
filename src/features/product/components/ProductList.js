@@ -423,40 +423,59 @@ function ProductGrid({ products }) {
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
           {products.map((product) => (
             <Link to={`/product-detail/${product.id}`}>
-              <div key={product.id} className="group relative">
-                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+              <div
+                key={product.id}
+                className="group relative max-w-sm bg-white px-6 pt-6 pb-2 rounded-xl shadow-lg transform hover:scale-105 transition duration-500"
+              >
+                <h3 class="mb-3 text-xl font-bold text-indigo-600">
+                  {product.category}
+                </h3>
+                <div class="relative ">
                   <img
-                    src={product.thumbnail}
+                    class="h-full w-full object-cover object-center lg:h-full lg:w-full rounded-xl"
+                    src={`http://localhost:8080/${product.thumbnail}`}
                     alt={product.title}
-                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                   />
-                  <p>`${product.thumbnail}`</p>
+                  <p class="absolute top-0 bg-yellow-300 text-gray-800 font-semibold py-1 px-3 rounded-br-lg rounded-tl-lg">
+                    FREE
+                  </p>
                 </div>
-                <div className="mt-4 flex justify-between">
-                  <div>
-                    <h3 className="text-sm text-gray-700">
-                      <a href={product.thumbnail}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {product.title}
-                      </a>
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      <StarIcon className="h-6 w-6 inline"></StarIcon>
-                      <span className="align-bottom">{product.rating}</span>
-                    </p>
+                <h1 class="mt-4 text-gray-800 text-2xl font-bold cursor-pointer">
+                  {product.title}
+                </h1>
+                <div class="my-4">
+                  <div className="flex justify-between">
+                    <div>
+                      <h3 className="text-sm text-gray-700">
+                        <a href={product.thumbnail}>
+                          <span
+                            aria-hidden="true"
+                            className="absolute inset-0"
+                          />
+                          {product.title}
+                        </a>
+                      </h3>
+                      <p className="mt-1 text-sm text-gray-500">
+                        <StarIcon className="h-6 w-6 inline"></StarIcon>
+                        <span className="align-bottom">{product.rating}</span>
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">
+                        $
+                        {Math.round(
+                          product.price -
+                            product.price * (product.discountPercentage / 100)
+                        )}
+                      </p>
+                      <p className="text-sm font-medium line-through text-gray-400">
+                        ${product.price}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      $
-                      {Math.round(
-                        product.price -
-                          product.price * (product.discountPercentage / 100)
-                      )}
-                    </p>
-                    <p className="text-sm font-medium line-through text-gray-400">
-                      ${product.price}
-                    </p>
-                  </div>
+                  <button class="mt-4 text-xl w-full text-white bg-indigo-600 py-2 rounded-xl shadow-lg">
+                    Click To Know More
+                  </button>
                 </div>
               </div>
             </Link>

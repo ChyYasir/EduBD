@@ -12,8 +12,8 @@ import InstructorNavBar from "../features/navBar/InstructorNavBar";
 const HomePage = () => {
   const user = useSelector(selectLoggedInUser);
   const instructor = useSelector(selectLoggedInInstructor);
-  console.log(user);
-  console.log(instructor);
+  // console.log(user);
+  // console.log(instructor);
   return (
     <>
       <NavBar>

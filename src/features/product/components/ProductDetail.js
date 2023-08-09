@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
-import { StarIcon, ArrowDownIcon } from "@heroicons/react/20/solid";
+import {
+  StarIcon,
+  ArrowDownIcon,
+  VideoCameraIcon,
+} from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { fetchProductByIDAsync, selectProductByID } from "../productSlice";
-import { addToCartAsync } from "../../cart/cartSlice";
+import { addToCartAsync, selectItems } from "../../cart/cartSlice";
 import { selectLoggedInUser } from "../../auth/authSlice";
+import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
+import { selectUserInfo } from "../../user/userSlice";
 
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
@@ -38,195 +44,179 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
   const product = useSelector(selectProductByID);
   const user = useSelector(selectLoggedInUser);
+  const userInfo = useSelector(selectUserInfo);
+  const items = useSelector(selectItems);
+  // const [purchased, setPurchased] = useState(0);
   //TODO: in server data we will colors, sizes
   const dispatch = useDispatch();
 
   const params = useParams();
+  let purchased = 0;
+  if (userInfo && userInfo.products) {
+    // Safely access myArray.length
+    for (let i = 0; i < userInfo.products.length; i++) {
+      // console.log("lol");
+      if (userInfo.products[i] === params.id) {
+        purchased = 1;
+      }
+    }
+  }
+  // console.log(user);
+  // console.log(user.products);
+  // console.log(params.id);
+  console.log({ purchased });
+  const [expandedChapter, setExpandedChapter] = useState(null);
 
+  const handleChapterClick = (chapterIndex) => {
+    if (expandedChapter === chapterIndex) {
+      setExpandedChapter(null); // Collapse if already expanded
+    } else {
+      setExpandedChapter(chapterIndex);
+    }
+  };
   const handleCart = (e) => {
     e.preventDefault();
-    const newItem = { ...product, quantity: 1, user: user.id };
-    delete newItem["id"];
-    dispatch(addToCartAsync(newItem));
+    if (items.findIndex((item) => item.product.id === product.id) < 0) {
+      const newItem = { product: product.id, user: user.id };
+      // delete newItem["id"];
+      dispatch(addToCartAsync(newItem));
+    }
   };
   useEffect(() => {
     dispatch(fetchProductByIDAsync(params.id));
   }, [dispatch, params.id]);
   return (
-    <div className="bg-white">
-      {product && (
-        <div className="pt-6">
-          <nav aria-label="Breadcrumb">
-            <ol
-              role="list"
-              className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-            >
-              {product.breadcrumbs &&
-                product.breadcrumbs.map((breadcrumb) => (
-                  <li key={breadcrumb.id}>
-                    <div className="flex items-center">
-                      <a
-                        href={breadcrumb.href}
-                        className="mr-2 text-sm font-medium text-gray-900"
-                      >
-                        {breadcrumb.name}
-                      </a>
-                      <svg
-                        width={16}
-                        height={20}
-                        viewBox="0 0 16 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                        className="h-5 w-4 text-gray-300"
-                      >
-                        <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                      </svg>
-                    </div>
-                  </li>
-                ))}
-              <li className="text-sm">
-                <a
-                  href={product.href}
-                  aria-current="page"
-                  className="font-medium text-gray-500 hover:text-gray-600"
-                >
+    <>
+      {!user && (
+        <Navigate to={"/courses"} replace={true}>
+          {" "}
+        </Navigate>
+      )}
+      <div className="bg-white">
+        {product && (
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
+            <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6">
+              <div className="lg:col-span-4 lg:border-r lg:border-gray-200 lg:pr-8">
+                <div>
+                  <img
+                    src={`http://localhost:8080/${product.thumbnail}`}
+                    alt={product.title}
+                  />
+                </div>
+                <p>Created By {product.instructor.name}</p>
+                <h1 className="text-4xl font-bold  text-gray-900 mb-8">
                   {product.title}
-                </a>
-              </li>
-            </ol>
-          </nav>
+                </h1>
+                <div>
+                  <h2 className="text-2xl font-bold">Course Description</h2>
+                  <p>{product.description}</p>
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold">Course Outline</h2>
+                  <div className="border border-solid border-gray-300">
+                    {product.structure.map((chapter, chapterIndex) => (
+                      <div key={chapterIndex}>
+                        <div
+                          className="cursor-pointer p-2 bg-gray-100 mb-2 flex justify-between"
+                          onClick={() => handleChapterClick(chapterIndex)}
+                        >
+                          <h1>{chapter.chapterTitle}</h1>
 
-          {/* Image gallery */}
-          <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-            <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-              <img
-                src={product.images[0]}
-                alt={product.title}
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-            <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-              <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                <img
-                  src={product.images[1]}
-                  alt={product.title}
-                  className="h-full w-full object-cover object-center"
-                />
-              </div>
-              <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                <img
-                  src={product.images[2]}
-                  alt={product.title}
-                  className="h-full w-full object-cover object-center"
-                />
-              </div>
-            </div>
-            <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-              <div class="accordion-header cursor-pointer transition flex space-x-5 px-5 items-center h-16">
-                <h3>Chapter 1</h3>
-                <ArrowDownIcon className="h-6 w-6"></ArrowDownIcon>
-              </div>
-            </div>
-          </div>
-
-          {/* Product info */}
-          <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
-            <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-              <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-                {product.title}
-              </h1>
-            </div>
-
-            {/* Options */}
-            <div className="mt-4 lg:row-span-3 lg:mt-0">
-              <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-gray-900">
-                ${product.price}
-              </p>
-
-              {/* Reviews */}
-              <div className="mt-6">
-                <h3 className="sr-only">Reviews</h3>
-                <div className="flex items-center">
-                  <div className="flex items-center">
-                    {[0, 1, 2, 3, 4].map((rating) => (
-                      <StarIcon
-                        key={rating}
-                        className={classNames(
-                          product.rating > rating
-                            ? "text-gray-900"
-                            : "text-gray-200",
-                          "h-5 w-5 flex-shrink-0"
+                          {expandedChapter !== chapterIndex && (
+                            <AiOutlineDown />
+                          )}
+                          {expandedChapter === chapterIndex && <AiOutlineUp />}
+                          {/* <ArrowDownIcon className="w-6 h-6"></ArrowDownIcon> */}
+                        </div>
+                        {expandedChapter === chapterIndex && (
+                          <div className="ml-4">
+                            {chapter.links.map((material, materialIndex) => (
+                              <div
+                                key={materialIndex}
+                                className="mb-3 border-b flex"
+                              >
+                                <VideoCameraIcon className="h-6 w-6"></VideoCameraIcon>
+                                {purchased === 1 && (
+                                  <Link
+                                    to={`/product-detail/${params.id}/video/${material.url}`}
+                                  >
+                                    <h2>{material.linkTitle}</h2>
+                                  </Link>
+                                )}
+                                {purchased === 0 && (
+                                  <h2>{material.linkTitle}</h2>
+                                )}
+                              </div>
+                            ))}
+                          </div>
                         )}
-                        aria-hidden="true"
-                      />
+                      </div>
                     ))}
                   </div>
-                  <p className="sr-only">{product.rating} out of 5 stars</p>
                 </div>
               </div>
 
-              <form className="mt-10">
-                {/* Colors */}
-                <div>
-                  <h3 className="text-sm font-medium text-gray-900">Color</h3>
+              {/* Options */}
+              <div className="mt-4 lg:col-span-2 lg:mt-0">
+                <h2 className="sr-only">Product information</h2>
+                <p className="text-3xl tracking-tight text-gray-900">
+                  ${product.price}
+                </p>
 
-                  <RadioGroup
-                    value={selectedColor}
-                    onChange={setSelectedColor}
-                    className="mt-4"
-                  ></RadioGroup>
+                {/* Reviews */}
+                <div className="mt-6">
+                  <h3 className="sr-only">Reviews</h3>
+                  <div className="flex items-center">
+                    <div className="flex items-center">
+                      {[0, 1, 2, 3, 4].map((rating) => (
+                        <StarIcon
+                          key={rating}
+                          className={classNames(
+                            product.rating > rating
+                              ? "text-gray-900"
+                              : "text-gray-200",
+                            "h-5 w-5 flex-shrink-0"
+                          )}
+                          aria-hidden="true"
+                        />
+                      ))}
+                    </div>
+                    <p className="sr-only">{product.rating} out of 5 stars</p>
+                  </div>
                 </div>
 
-                <button
-                  onClick={handleCart}
-                  type="submit"
-                  className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Add to Cart
-                </button>
-              </form>
-            </div>
+                <form className="mt-10">
+                  {/* Colors */}
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
-            <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
-              {/* Description and details */}
-              <div>
-                <h3 className="sr-only">Description</h3>
+                    <RadioGroup
+                      value={selectedColor}
+                      onChange={setSelectedColor}
+                      className="mt-4"
+                    ></RadioGroup>
+                  </div>
 
-                <div className="space-y-6">
-                  <p className="text-base text-gray-900">
-                    {product.description}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-10">
-                <h3 className="text-sm font-medium text-gray-900">
-                  Highlights
-                </h3>
-
-                <div className="mt-4">
-                  <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                    {highlights.map((highlight) => (
-                      <li key={highlight} className="text-gray-400">
-                        <span className="text-gray-600">{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="mt-10">
-                <h2 className="text-sm font-medium text-gray-900">Details</h2>
-
-                <div className="mt-4 space-y-6">
-                  <p className="text-sm text-gray-600">{product.description}</p>
-                </div>
+                  <div className={` ${purchased === 1 ? "hidden" : ""}`}>
+                    <button
+                      onClick={handleCart}
+                      type="submit"
+                      className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                  <div className={` ${purchased === 0 ? "hidden" : ""}`}>
+                    <h2 className="text-2xl text-primary font-bold">
+                      You have already enrolled into this course{" "}
+                    </h2>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
