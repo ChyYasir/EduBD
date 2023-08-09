@@ -52,11 +52,11 @@ export default function ProductList() {
       name: "Category",
       options: categories,
     },
-    {
-      id: "topic",
-      name: "Topic",
-      options: brands,
-    },
+    // {
+    //   id: "topic",
+    //   name: "Topic",
+    //   options: brands,
+    // },
   ];
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});

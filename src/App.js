@@ -170,7 +170,7 @@ const router = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
-  // console.log(user);
+  console.log(user);
   const instructor = useSelector(selectLoggedInInstructor);
   useEffect(() => {
     if (user) {

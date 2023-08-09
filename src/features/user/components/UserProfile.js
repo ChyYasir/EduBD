@@ -74,21 +74,36 @@ export default function UserProfile() {
                       </span>
                       <input
                         type="file"
-                        // onChange={(e) => {
-                        //   const pic = e.target.files[0];
-                        //   console.log({ pic });
-                        //   const formData = new FormData();
-                        //   formData.append("id", user.id);
-                        //   formData.append("name", user.name);
-                        //   formData.append("email", user.email);
-                        //   formData.append("password", user.password);
-                        //   user.products.forEach((item, index) => {
-                        //     formData.append("products[]", item);
-                        //   });
-                        //   formData.append("picture", pic);
-                        //   console.log(formData);
-                        //   dispatch(updateUserAsync(formData));
-                        // }}
+                        onChange={async (e) => {
+                          const pic = e.target.files[0];
+                          // console.log({ pic });
+                          // const formData = new FormData();
+                          // // formData.append("id", user.id);
+                          // formData.append("name", user.name);
+                          // formData.append("email", user.email);
+                          // // formData.append("password", user.password);
+                          // user.products.forEach((item, index) => {
+                          //   formData.append("products[]", item);
+                          // });
+                          // formData.append("picture", pic);
+                          // console.log(formData);
+                          // console.log(user.id);
+                          // try {
+                          //   const response = await fetch(
+                          //     "http://localhost:8080/users/" + user.id,
+                          //     {
+                          //       method: "PATCH",
+                          //       body: formData,
+                          //       // headers: { "content-type": "application/json" },
+                          //     }
+                          //   );
+
+                          //   // Handle response from the server
+                          // } catch (error) {
+                          //   console.error("Error uploading image:", error);
+                          // }
+                          // dispatch(updateUserAsync(formData));
+                        }}
                         className="hidden"
                       />
                     </label>
